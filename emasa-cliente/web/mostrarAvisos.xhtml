@@ -4,14 +4,14 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Lista de avisos de #{avisoBean.emailUsuario}</title>
+        <title>Lista de avisos de #{controlBean.emailUsuario}</title>
     </h:head>
     <h:body>
-        <p >Lista de avisos de #{avisoBean.emailUsuario}</p>
+        <p >Lista de avisos de #{controlBean.emailUsuario}</p>
         <f:view>
             <h:form>
-                <h:commandButton action="#{avisoBean.crearAviso()}" value="Crear Aviso"/><br/><br/>
-                <h:dataTable value="#{avisoBean.listaAvisosUsuario}" var="aviso"  border="2"  cellspacing="2">
+                <h:commandButton action="#{controlBean.crearAviso()}" value="Crear Aviso"/><br/><br/>
+                <h:dataTable value="#{controlBean.listaAvisosUsuario}" var="aviso"  border="2"  cellspacing="2">
                     <h:column>
                         <f:facet name="header">
                             ID
@@ -82,7 +82,7 @@
                         <f:facet name="header">
                             Ver Detalles
                         </f:facet>
-                        <h:commandButton action="#{avisoBean.verAviso(aviso)}" value="Detalles"/>
+                        <h:commandButton action="#{controlBean.verAviso(aviso)}" value="Detalles"/>
                         
                     </h:column>
                 </h:dataTable>
