@@ -10,6 +10,7 @@
         <p >Lista de avisos de #{avisoBean.emailUsuario}</p>
         <f:view>
             <h:form>
+                <h:commandButton action="#{avisoBean.crearAviso()}" value="Crear Aviso"/><br/><br/>
                 <h:dataTable value="#{avisoBean.listaAvisosUsuario}" var="aviso"  border="2"  cellspacing="2">
                     <h:column>
                         <f:facet name="header">
@@ -76,6 +77,13 @@
                             Tipo
                         </f:facet>
                         #{aviso.tipo}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Ver Detalles
+                        </f:facet>
+                        <h:commandButton action="#{avisoBean.verAviso(aviso)}" value="Detalles"/>
+                        
                     </h:column>
                 </h:dataTable>
             </h:form>
