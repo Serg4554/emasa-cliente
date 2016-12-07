@@ -12,8 +12,8 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
 import javax.xml.ws.WebServiceRef;
-import operacionws.Operacion;
-import operacionws.OperacionWS_Service;
+//import operacionws.Operacion;
+//import operacionws.OperacionWS_Service;
 import usuariows.Usuario;
 import usuariows.UsuarioWS_Service;
 
@@ -37,7 +37,7 @@ public class ControlBean implements Serializable {
     Aviso avisoSeleccionado; 
     String emailUsuario;
     List<Aviso> listaAvisosUsuario;
-    List<Operacion> listaOperaciones;
+    //List<Operacion> listaOperaciones;
     Usuario usuarioActual;
     
     /**
@@ -91,13 +91,13 @@ public class ControlBean implements Serializable {
         this.listaAvisosUsuario = listaAvisosUsuario;
     }
 
-    public List<Operacion> getListaOperaciones() {
+    /*public List<Operacion> getListaOperaciones() {
         return listaOperaciones;
     }
 
     public void setListaOperaciones(List<Operacion> listaOperaciones) {
         this.listaOperaciones = listaOperaciones;
-    }
+    }*/
 
     public Usuario getUsuarioActual() {
         return usuarioActual;
