@@ -6,8 +6,9 @@
 package bean;
 
 
-import avisows.AvisoWS_Service;
-import avisows.Aviso;
+
+import AvisoWS.Aviso;
+import AvisoWS.AvisoWS_Service;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -23,11 +24,14 @@ import javax.xml.ws.WebServiceRef;
 public class AvisoBean implements Serializable {
 
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/Emasa-Soap-war/AvisoWS.wsdl")
+    private AvisoWS_Service service_1;
+
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/Emasa-Soap-war/AvisoWS.wsdl")
     private AvisoWS_Service service;
    
-    avisows.Aviso avisoSeleccionado; 
+    Aviso avisoSeleccionado; 
     String emailUsuario;
-    List<avisows.Aviso> listaAvisosUsuario;
+    List<Aviso> listaAvisosUsuario;
     /**
      * Creates a new instance of AvisoBean
      */
@@ -50,13 +54,6 @@ public class AvisoBean implements Serializable {
         listaAvisosUsuario = findAvisoPorUsuario(emailUsuario);
         return "mostrarAvisos";
     }
-
-    private java.util.List<avisows.Aviso> findAvisoPorUsuario(java.lang.String s) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        avisows.AvisoWS port = service.getAvisoWSPort();
-        return port.findAvisoPorUsuario(s);
-    }
     
     
     public Aviso getAvisoSeleccionado() {
@@ -74,4 +71,12 @@ public class AvisoBean implements Serializable {
     public void setListaAvisosUsuario(List<Aviso> listaAvisosUsuario) {
         this.listaAvisosUsuario = listaAvisosUsuario;
     }
+
+    private java.util.List<Aviso> findAvisoPorUsuario(java.lang.String s) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        AvisoWS.AvisoWS port = service_1.getAvisoWSPort();
+        return port.findAvisoPorUsuario(s);
+    }
+
 }

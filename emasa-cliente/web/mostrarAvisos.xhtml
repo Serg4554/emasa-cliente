@@ -1,12 +1,86 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Lista de avisos de #{avisoBean.emailUsuario}</title>
     </h:head>
     <h:body>
-        #{avisoBean.emailUsuario}
+        <p >Lista de avisos de #{avisoBean.emailUsuario}</p>
+        <f:view>
+            <h:form>
+                <h:dataTable value="#{avisoBean.listaAvisosUsuario}" var="aviso"  border="2"  cellspacing="2">
+                    <h:column>
+                        <f:facet name="header">
+                            ID
+                        </f:facet>
+                        #{aviso.id}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Fecha Creación
+                        </f:facet>
+                        #{aviso.fechacreacion.day}/#{aviso.fechacreacion.month}/#{aviso.fechacreacion.year}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Ubicacion
+                        </f:facet>
+                        #{aviso.ubicacion}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Estado
+                        </f:facet>
+                        #{aviso.estado}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Observaciones
+                        </f:facet>
+                        #{aviso.observaciones}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Ubicacion Técnica
+                        </f:facet>
+                        #{aviso.ubicacionTecnica}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Prioridad
+                        </f:facet>
+                        #{aviso.prioridad}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Inicio Reparación
+                        </f:facet>
+                        #{aviso.inicioReparacion.day}/#{aviso.inicioReparacion.month}/#{aviso.inicioReparacion.year}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Fin Reparación
+                        </f:facet>
+                        #{aviso.finReparacion.day}/#{aviso.finReparacion.month}/#{aviso.finReparacion.year}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Posición GPS
+                        </f:facet>
+                        #{aviso.posGPS}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Tipo
+                        </f:facet>
+                        #{aviso.tipo}
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </f:view>
+
     </h:body>
 </html>
 
