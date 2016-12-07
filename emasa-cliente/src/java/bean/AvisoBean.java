@@ -5,8 +5,9 @@
  */
 package bean;
 
-import AvisoWS.Aviso;
-import AvisoWS.AvisoWS_Service;
+
+import avisows.AvisoWS_Service;
+import avisows.Aviso;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -24,9 +25,9 @@ public class AvisoBean implements Serializable {
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/Emasa-Soap-war/AvisoWS.wsdl")
     private AvisoWS_Service service;
    
-    AvisoWS.Aviso avisoSeleccionado; 
+    avisows.Aviso avisoSeleccionado; 
     String emailUsuario;
-    List<AvisoWS.Aviso> listaAvisosUsuario;
+    List<avisows.Aviso> listaAvisosUsuario;
     /**
      * Creates a new instance of AvisoBean
      */
@@ -50,10 +51,10 @@ public class AvisoBean implements Serializable {
         return "mostrarAvisos";
     }
 
-    private java.util.List<AvisoWS.Aviso> findAvisoPorUsuario(java.lang.String s) {
+    private java.util.List<avisows.Aviso> findAvisoPorUsuario(java.lang.String s) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
-        AvisoWS.AvisoWS port = service.getAvisoWSPort();
+        avisows.AvisoWS port = service.getAvisoWSPort();
         return port.findAvisoPorUsuario(s);
     }
     
