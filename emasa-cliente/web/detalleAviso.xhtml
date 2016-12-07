@@ -1,12 +1,49 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title></title>
+        <title>Aviso</title>
     </h:head>
     <h:body>
-        Hello from Facelets
+        <h1>Detalle del Aviso: #{controlBean.avisoSeleccionado.id}</h1>
+        
+        Fecha de creacion: #{controlBean.avisoSeleccionado.fechacreacion.day}/#{controlBean.avisoSeleccionado.fechacreacion.month}/#{controlBean.avisoSeleccionado.fechacreacion.year}<br/>
+        ubicación: #{controlBean.avisoSeleccionado.ubicacion}<br/>
+        estado: #{controlBean.avisoSeleccionado.estado}<br/>
+        observaciones: <br/>
+        #{controlBean.avisoSeleccionado.observaciones}<br/>
+        ubicación técnica: #{controlBean.avisoSeleccionado.ubicacionTecnica}<br/>
+        prioridad: #{controlBean.avisoSeleccionado.prioridad}<br/>
+        inicio de reparación: #{controlBean.avisoSeleccionado.inicioReparacion.day}/#{controlBean.avisoSeleccionado.inicioReparacion.month}/#{controlBean.avisoSeleccionado.inicioReparacion.year}<br/>
+        fin de reparación: #{controlBean.avisoSeleccionado.finReparacion.day}/#{controlBean.avisoSeleccionado.finReparacion.month}/#{controlBean.avisoSeleccionado.finReparacion.year}<br/>
+        posición GPS: #{controlBean.avisoSeleccionado.posGPS}<br/>
+        tipo: #{controlBean.avisoSeleccionado.tipo}<br/>
+        operaciones:<br/>
+        <h:dataTable value="#{controlBean.listaOperaciones}" var="operacion" border="2"  cellspacing="2" >
+                            <h:column>
+                                <f:facet name="header">
+                                    id
+                                </f:facet>
+                                #{operacion.id}
+                            </h:column>     
+                            <h:column>
+                                <f:facet name="header">
+                                    descripcion
+                                </f:facet>
+                                #{operacion.descripcion}
+                            </h:column>  
+                            <h:column>
+                                <f:facet name="header">
+                                    fecha
+                                </f:facet>
+                                #{operacion.fecha.day}/#{operacion.fecha.month}/#{operacion.fecha.year}
+                            </h:column>  
+        </h:dataTable>
+        <h:form>
+        <h:commandButton value="volver" action="#{controlBean.mostrarAvisos()}"/>
+        </h:form>
     </h:body>
 </html>
 
