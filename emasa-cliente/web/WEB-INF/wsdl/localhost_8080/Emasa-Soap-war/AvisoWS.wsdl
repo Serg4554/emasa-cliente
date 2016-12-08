@@ -22,14 +22,11 @@
 <message name="create">
 <part name="parameters" element="tns:create"/>
 </message>
-<message name="findAll">
-<part name="parameters" element="tns:findAll"/>
+<message name="findAvisoEntre">
+<part name="parameters" element="tns:findAvisoEntre"/>
 </message>
-<message name="findAllResponse">
-<part name="parameters" element="tns:findAllResponse"/>
-</message>
-<message name="edit">
-<part name="parameters" element="tns:edit"/>
+<message name="findAvisoEntreResponse">
+<part name="parameters" element="tns:findAvisoEntreResponse"/>
 </message>
 <message name="findAvisoPorTipo">
 <part name="parameters" element="tns:findAvisoPorTipo"/>
@@ -37,11 +34,11 @@
 <message name="findAvisoPorTipoResponse">
 <part name="parameters" element="tns:findAvisoPorTipoResponse"/>
 </message>
-<message name="findAvisoEntre">
-<part name="parameters" element="tns:findAvisoEntre"/>
+<message name="findAll">
+<part name="parameters" element="tns:findAll"/>
 </message>
-<message name="findAvisoEntreResponse">
-<part name="parameters" element="tns:findAvisoEntreResponse"/>
+<message name="findAllResponse">
+<part name="parameters" element="tns:findAllResponse"/>
 </message>
 <message name="findRange">
 <part name="parameters" element="tns:findRange"/>
@@ -49,17 +46,20 @@
 <message name="findRangeResponse">
 <part name="parameters" element="tns:findRangeResponse"/>
 </message>
-<message name="findAvisoPorPrioridad">
-<part name="parameters" element="tns:findAvisoPorPrioridad"/>
-</message>
-<message name="findAvisoPorPrioridadResponse">
-<part name="parameters" element="tns:findAvisoPorPrioridadResponse"/>
+<message name="edit">
+<part name="parameters" element="tns:edit"/>
 </message>
 <message name="findAvisoPorEstado">
 <part name="parameters" element="tns:findAvisoPorEstado"/>
 </message>
 <message name="findAvisoPorEstadoResponse">
 <part name="parameters" element="tns:findAvisoPorEstadoResponse"/>
+</message>
+<message name="findAvisoPorPrioridad">
+<part name="parameters" element="tns:findAvisoPorPrioridad"/>
+</message>
+<message name="findAvisoPorPrioridadResponse">
+<part name="parameters" element="tns:findAvisoPorPrioridadResponse"/>
 </message>
 <message name="findAvisoPorUsuario">
 <part name="parameters" element="tns:findAvisoPorUsuario"/>
@@ -82,32 +82,32 @@
 <operation name="create">
 <input wsam:Action="http://avisoWS/AvisoWS/create" message="tns:create"/>
 </operation>
-<operation name="findAll">
-<input wsam:Action="http://avisoWS/AvisoWS/findAllRequest" message="tns:findAll"/>
-<output wsam:Action="http://avisoWS/AvisoWS/findAllResponse" message="tns:findAllResponse"/>
-</operation>
-<operation name="edit">
-<input wsam:Action="http://avisoWS/AvisoWS/edit" message="tns:edit"/>
+<operation name="findAvisoEntre">
+<input wsam:Action="http://avisoWS/AvisoWS/findAvisoEntreRequest" message="tns:findAvisoEntre"/>
+<output wsam:Action="http://avisoWS/AvisoWS/findAvisoEntreResponse" message="tns:findAvisoEntreResponse"/>
 </operation>
 <operation name="findAvisoPorTipo">
 <input wsam:Action="http://avisoWS/AvisoWS/findAvisoPorTipoRequest" message="tns:findAvisoPorTipo"/>
 <output wsam:Action="http://avisoWS/AvisoWS/findAvisoPorTipoResponse" message="tns:findAvisoPorTipoResponse"/>
 </operation>
-<operation name="findAvisoEntre">
-<input wsam:Action="http://avisoWS/AvisoWS/findAvisoEntreRequest" message="tns:findAvisoEntre"/>
-<output wsam:Action="http://avisoWS/AvisoWS/findAvisoEntreResponse" message="tns:findAvisoEntreResponse"/>
+<operation name="findAll">
+<input wsam:Action="http://avisoWS/AvisoWS/findAllRequest" message="tns:findAll"/>
+<output wsam:Action="http://avisoWS/AvisoWS/findAllResponse" message="tns:findAllResponse"/>
 </operation>
 <operation name="findRange">
 <input wsam:Action="http://avisoWS/AvisoWS/findRangeRequest" message="tns:findRange"/>
 <output wsam:Action="http://avisoWS/AvisoWS/findRangeResponse" message="tns:findRangeResponse"/>
 </operation>
-<operation name="findAvisoPorPrioridad">
-<input wsam:Action="http://avisoWS/AvisoWS/findAvisoPorPrioridadRequest" message="tns:findAvisoPorPrioridad"/>
-<output wsam:Action="http://avisoWS/AvisoWS/findAvisoPorPrioridadResponse" message="tns:findAvisoPorPrioridadResponse"/>
+<operation name="edit">
+<input wsam:Action="http://avisoWS/AvisoWS/edit" message="tns:edit"/>
 </operation>
 <operation name="findAvisoPorEstado">
 <input wsam:Action="http://avisoWS/AvisoWS/findAvisoPorEstadoRequest" message="tns:findAvisoPorEstado"/>
 <output wsam:Action="http://avisoWS/AvisoWS/findAvisoPorEstadoResponse" message="tns:findAvisoPorEstadoResponse"/>
+</operation>
+<operation name="findAvisoPorPrioridad">
+<input wsam:Action="http://avisoWS/AvisoWS/findAvisoPorPrioridadRequest" message="tns:findAvisoPorPrioridad"/>
+<output wsam:Action="http://avisoWS/AvisoWS/findAvisoPorPrioridadResponse" message="tns:findAvisoPorPrioridadResponse"/>
 </operation>
 <operation name="findAvisoPorUsuario">
 <input wsam:Action="http://avisoWS/AvisoWS/findAvisoPorUsuarioRequest" message="tns:findAvisoPorUsuario"/>
@@ -146,7 +146,7 @@
 <soap:body use="literal"/>
 </input>
 </operation>
-<operation name="findAll">
+<operation name="findAvisoEntre">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -154,12 +154,6 @@
 <output>
 <soap:body use="literal"/>
 </output>
-</operation>
-<operation name="edit">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
 </operation>
 <operation name="findAvisoPorTipo">
 <soap:operation soapAction=""/>
@@ -170,7 +164,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="findAvisoEntre">
+<operation name="findAll">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -188,7 +182,13 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="findAvisoPorPrioridad">
+<operation name="edit">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+</operation>
+<operation name="findAvisoPorEstado">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -197,7 +197,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="findAvisoPorEstado">
+<operation name="findAvisoPorPrioridad">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

@@ -199,7 +199,7 @@ public class ControlBean implements Serializable {
     }
 
     public void comprobarUsuario() {
-        usuarioActual = find_1(emailUsuario);
+        usuarioActual = find(emailUsuario);
         if (usuarioActual == null) {
             usuarioActual = new Usuario();
             usuarioActual.setEmail(emailUsuario);
@@ -210,13 +210,6 @@ public class ControlBean implements Serializable {
         usuarioAviso.setEmail(emailUsuario);
         usuarioAviso.setOperador(false);
         avisoSeleccionado.setUsuarioemail(usuarioAviso);
-    }
-
-    private Usuario find_1(java.lang.Object id) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        usuariows.UsuarioWS port = service_1.getUsuarioWSPort();
-        return port.find(id);
     }
 
     private void create(usuariows.Usuario entity) {
@@ -234,7 +227,7 @@ public class ControlBean implements Serializable {
     public String doGuardar() {
         error="";
         String fecha;
-        Aviso a = new Aviso();
+        avisoSeleccionado = new Aviso();
         if(!dia.isEmpty() && !mes.isEmpty() && !anyo.isEmpty()){
             fecha = dia + "-" + mes + "-" + anyo;
         }else{
@@ -248,7 +241,7 @@ public class ControlBean implements Serializable {
                 Date date = formatter.parse(fecha);
                 GregorianCalendar c = new GregorianCalendar();
                 c.setTime(date);
-                a.setFechacreacion(DatatypeFactory.newInstance().newXMLGregorianCalendar(c));
+                avisoSeleccionado.setFechacreacion(DatatypeFactory.newInstance().newXMLGregorianCalendar(c));
             } catch (DatatypeConfigurationException e) {
                 error = "El formato de fecha debe ser dd-MM-yyyy";
                 return "crearAviso";
@@ -261,13 +254,13 @@ public class ControlBean implements Serializable {
             error="La ubicación no puede ser vacía";
             return "crearAviso";
         }else{
-            a.setUbicacion(ubicacion);
+            avisoSeleccionado.setUbicacion(ubicacion);
         }
         if(observaciones==null || observaciones.isEmpty()){
             error="El campo de observaciones no puede estar vacío";
             return "crearAviso";
         }else{
-            a.setObservaciones(observaciones);
+            avisoSeleccionado.setObservaciones(observaciones);
         }
         
         if(latitud==null || latitud.isEmpty() || longitud == null || longitud.isEmpty()){
@@ -276,12 +269,11 @@ public class ControlBean implements Serializable {
         }else{
             double lat = Double.parseDouble(latitud);
             double longi = Double.parseDouble(longitud);
-            a.setPosGPS(lat+";"+longi);
+            avisoSeleccionado.setPosGPS(lat+";"+longi);
         }
-        avisoSeleccionado = a;
+        
         comprobarUsuario();
         create_1(avisoSeleccionado);
-        listaAvisosUsuario.add(avisoSeleccionado);
         return "mostrarAvisos";
     }
 
@@ -291,6 +283,23 @@ public class ControlBean implements Serializable {
         avisows.AvisoWS port = service.getAvisoWSPort();
         port.create(entity);
     }
+
+    private int count() {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        avisows.AvisoWS port = service.getAvisoWSPort();
+        return port.count();
+    }
+
+    private Aviso find_1(java.lang.Object id) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        avisows.AvisoWS port = service.getAvisoWSPort();
+        return port.find(id);
+    }
+
+    
+    
     
     
 }
