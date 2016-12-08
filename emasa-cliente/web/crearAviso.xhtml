@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <title>Nuevo aviso</title>
+    </h:head>
+    
+    <h:body>
+        <h:form>
+            Fecha de creación: <h:inputText a:placeholder="dd" maxlength="2" value="#{controlBean.dia}"/><h:inputText a:placeholder="mm" maxlength="2" value="#{controlBean.mes}"/><h:inputText a:placeholder="aaaa" maxlength="4" value="#{controlBean.anyo}"/><br/>
+            Ubicación: <h:inputText value="#{controlBean.ubicacion}"/><br/>
+            Observaciones: <h:inputText value="#{controlBean.observaciones}"/><br/>
+            Posicionamiento GPS: <h:inputText a:placeholder="Latitud" value="#{controlBean.latitud}"/><h:inputText a:placeholder="Longitud" value="#{controlBean.longitud}"/><br/>
+            <h:commandButton value="Guardar" action="#{controlBean.doGuardar()}"/>
+        </h:form>
+           
+    </h:body> 
+    
+</html>
+

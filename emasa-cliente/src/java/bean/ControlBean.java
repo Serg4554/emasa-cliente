@@ -10,7 +10,15 @@ import avisows.AvisoWS_Service;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 import javax.xml.ws.WebServiceRef;
 import operacionws.Operacion;
 import operacionws.OperacionWS_Service;
@@ -30,24 +38,87 @@ public class ControlBean implements Serializable {
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/Emasa-Soap-war/OperacionWS.wsdl")
     private OperacionWS_Service service_2;
 
-  
-
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/Emasa-Soap-war/UsuarioWS.wsdl")
     private UsuarioWS_Service service_1;
 
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/Emasa-Soap-war/AvisoWS.wsdl")
     private AvisoWS_Service service;
 
-    Aviso avisoSeleccionado; 
+    Aviso avisoSeleccionado;
+    String latitud, longitud, error, ubicacion, dia, mes, anyo, observaciones;
     String emailUsuario;
     List<Aviso> listaAvisosUsuario;
     List<Operacion> listaOperaciones;
     Usuario usuarioActual;
-    
+
     /**
      * Creates a new instance of ControlBean
      */
     public ControlBean() {
+    }
+
+    public String getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(String latitud) {
+        this.latitud = latitud;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
+    public String getLongitud() {
+        return longitud;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
+    }
+
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
+    public String getDia() {
+        return dia;
+    }
+
+    public void setDia(String dia) {
+        this.dia = dia;
+    }
+
+    public String getMes() {
+        return mes;
+    }
+
+    public void setMes(String mes) {
+        this.mes = mes;
+    }
+
+    public String getAnyo() {
+        return anyo;
+    }
+
+    public void setAnyo(String anyo) {
+        this.anyo = anyo;
     }
 
     private java.util.List<avisows.Aviso> findAvisoPorUsuario(java.lang.String s) {
@@ -63,8 +134,6 @@ public class ControlBean implements Serializable {
         usuariows.UsuarioWS port = service_1.getUsuarioWSPort();
         return port.find(id);
     }
-
-    
 
     public Aviso getAvisoSeleccionado() {
         return avisoSeleccionado;
@@ -105,21 +174,20 @@ public class ControlBean implements Serializable {
     public void setUsuarioActual(Usuario usuarioActual) {
         this.usuarioActual = usuarioActual;
     }
-    
-    public String mostrarAvisos ()
-    {
+
+    public String mostrarAvisos() {
         //obtenemos la lista de avisos del usuario
         listaAvisosUsuario = findAvisoPorUsuario(emailUsuario);
         return "mostrarAvisos";
     }
-    
-    public String verAviso(Aviso aviso){
+
+    public String verAviso(Aviso aviso) {
         avisoSeleccionado = aviso;
         listaOperaciones = getListaOperacionesAviso();
         return "detalleAviso";
     }
-    
-    private List<operacionws.Operacion> getListaOperacionesAviso(){
+
+    private List<operacionws.Operacion> getListaOperacionesAviso() {
         return this.findListaOperaciones(avisoSeleccionado.getId());
     }
 
@@ -129,4 +197,100 @@ public class ControlBean implements Serializable {
         operacionws.OperacionWS port = service_2.getOperacionWSPort();
         return port.findListaOperaciones(id);
     }
+
+    public void comprobarUsuario() {
+        usuarioActual = find_1(emailUsuario);
+        if (usuarioActual == null) {
+            usuarioActual = new Usuario();
+            usuarioActual.setEmail(emailUsuario);
+            usuarioActual.setOperador(false);
+            create(usuarioActual);
+        }
+        avisows.Usuario usuarioAviso = new avisows.Usuario();
+        usuarioAviso.setEmail(emailUsuario);
+        usuarioAviso.setOperador(false);
+        avisoSeleccionado.setUsuarioemail(usuarioAviso);
+    }
+
+    private Usuario find_1(java.lang.Object id) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        usuariows.UsuarioWS port = service_1.getUsuarioWSPort();
+        return port.find(id);
+    }
+
+    private void create(usuariows.Usuario entity) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        usuariows.UsuarioWS port = service_1.getUsuarioWSPort();
+        port.create(entity);
+    }
+
+    public String crearAviso() {
+        error="";
+        return "crearAviso";
+    }
+
+    public String doGuardar() {
+        error="";
+        String fecha;
+        Aviso a = new Aviso();
+        if(!dia.isEmpty() && !mes.isEmpty() && !anyo.isEmpty()){
+            fecha = dia + "-" + mes + "-" + anyo;
+        }else{
+            error="Fecha no válida";
+            return "crearAviso";
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+        formatter.applyPattern("dd-MM-yyyy");
+        if (fecha != null && !fecha.trim().isEmpty()) {
+            try {
+                Date date = formatter.parse(fecha);
+                GregorianCalendar c = new GregorianCalendar();
+                c.setTime(date);
+                a.setFechacreacion(DatatypeFactory.newInstance().newXMLGregorianCalendar(c));
+            } catch (DatatypeConfigurationException e) {
+                error = "El formato de fecha debe ser dd-MM-yyyy";
+                return "crearAviso";
+            } catch (ParseException ex) {
+                error = "Fecha no válida";
+                return "crearAviso";
+            }
+        }
+        if(ubicacion==null || ubicacion.isEmpty()){
+            error="La ubicación no puede ser vacía";
+            return "crearAviso";
+        }else{
+            a.setUbicacion(ubicacion);
+        }
+        if(observaciones==null || observaciones.isEmpty()){
+            error="El campo de observaciones no puede estar vacío";
+            return "crearAviso";
+        }else{
+            a.setObservaciones(observaciones);
+        }
+        
+        if(latitud==null || latitud.isEmpty() || longitud == null || longitud.isEmpty()){
+            error="Los campos del posicionamiento GPS no pueden ser vacíos";
+            return "crearAviso";
+        }else{
+            double lat = Double.parseDouble(latitud);
+            double longi = Double.parseDouble(longitud);
+            a.setPosGPS(lat+";"+longi);
+        }
+        avisoSeleccionado = a;
+        comprobarUsuario();
+        create_1(avisoSeleccionado);
+        listaAvisosUsuario.add(avisoSeleccionado);
+        return "mostrarAvisos";
+    }
+
+    private void create_1(avisows.Aviso entity) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        avisows.AvisoWS port = service.getAvisoWSPort();
+        port.create(entity);
+    }
+    
+    
 }
