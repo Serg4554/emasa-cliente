@@ -271,9 +271,10 @@ public class ControlBean implements Serializable {
             double longi = Double.parseDouble(longitud);
             avisoSeleccionado.setPosGPS(lat+";"+longi);
         }
-        
+        avisoSeleccionado.setEstado("En espera de confirmación");
         comprobarUsuario();
         create_1(avisoSeleccionado);
+        listaAvisosUsuario.add(avisoSeleccionado);
         return "mostrarAvisos";
     }
 
